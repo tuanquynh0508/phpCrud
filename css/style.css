@@ -1,0 +1,17 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 3, 2015, 1:40:28 PM
+    Author     : nntuan
+*/
+
+.errors li, .error, .required {
+	color: #EC2121;
+}
+
+.success {
+	color: #47CB66;
+}
