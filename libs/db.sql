@@ -30,9 +30,11 @@ CREATE TABLE `tbl_category` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_category` */
+
+insert  into `tbl_category`(`id`,`parent_id`,`title`,`slug`,`is_active`,`created_at`,`updated_at`) values (1,0,'Danh má»¥c 1','danh-muc-1',1,'2015-09-03 20:05:06','2015-09-03 21:06:46'),(4,0,'Danh muc 2','danh-muc-2',1,'2015-09-03 20:55:09',NULL),(5,0,'Danh muc 3 A','danh-muc-3',0,'2015-09-03 20:55:22','2015-09-03 21:06:50'),(6,0,'Danh muc 4','danh-muc-4',1,'2015-09-03 21:39:53',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

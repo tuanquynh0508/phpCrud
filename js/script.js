@@ -3,3 +3,7 @@ $('.btnDelete').click(function(event){
 		event.preventDefault();
 	}
 });
+
+$('.btnSearch').click(function(){
+	$('#frmSearch').submit();
+});

@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : Sep 3, 2015, 1:40:28 PM
     Author     : nntuan
 */
@@ -11,7 +11,12 @@ and open the template in the editor.
 .errors li, .error, .required {
 	color: #EC2121;
 }
-
+.warning {
+	color: #FF9900;
+}
 .success {
 	color: #47CB66;
+}
+.btnSearch {
+	cursor: pointer;
 }

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Constant Variable
 define("DB_HOST", "localhost");
 define("DB_NAME", "php_training");

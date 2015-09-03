@@ -16,11 +16,11 @@ class DBAccess extends \mysqli
 		}
 		$this->query("SET NAMES UTF-8");
 	}
-	
+
 	public function __destruct() {
 		$this->close();
 	}
-	
+
 	public function deleteById($tableName, $id)
 	{
 		$value = false;
@@ -30,12 +30,12 @@ class DBAccess extends \mysqli
 			if($affectedRows > 0) {
 				$value = true;
 			}
-		} else {			
+		} else {
 			throw new HttpException($this->error, 500);
 		}
 		return $value;
 	}
-	
+
 	public function findOneById($tableName, $id)
 	{
 		$record = NULL;
@@ -43,12 +43,12 @@ class DBAccess extends \mysqli
 		if ($result = $this->query($sql)) {
 			$record = $result->fetch_object();
 			$result->close();
-		} else {			
+		} else {
 			throw new HttpException($this->error, 500);
 		}
 		return $record;
 	}
-	
+
 	public function scalarBySQL($sql)
 	{
 		$value = NULL;
@@ -58,7 +58,7 @@ class DBAccess extends \mysqli
 				$value = $record[0];
 			}
 			$result->close();
-		} else {			
+		} else {
 			throw new HttpException($this->error, 500);
 		}
 		return $value;
@@ -68,31 +68,31 @@ class DBAccess extends \mysqli
 	{
 		$list = array();
 		if ($result = $this->query($sql)) {
-			while($obj = $result->fetch_object()){ 
-				$list[] = $obj; 				
+			while($obj = $result->fetch_object()){
+				$list[] = $obj;
 			}
 			$result->close();
-		} else {			
+		} else {
 			throw new HttpException($this->error, 500);
 		}
 		return $list;
 	}
-	
+
 	public function save($tableName, $attributes, $pkName = null)
 	{
-		$record = NULL;		
+		$record = NULL;
 		$isAddNew = (null === $pkName)?true:false;
-		
+
 		if($isAddNew) {
 			$sql = $this->buildInsertSql($tableName, $attributes);
 		} else {
 			$sql = $this->buildUpdateSql($tableName, $attributes, $pkName);
 		}
-		
+
 		try {
 			//Start transaction
 			$this->autocommit(FALSE);
-			
+
 			if ($this->query($sql)) {
 				//$affectedRows = $this->affected_rows;
 				if($isAddNew) {
@@ -101,49 +101,49 @@ class DBAccess extends \mysqli
 					$insertId = $attributes[$pkName];
 				}
 				$record = $this->findOneById($tableName, $insertId);
-			} else {			
+			} else {
 				throw new HttpException($this->error, 500);
 			}
-						
+
 			//End transaction
-			$this->commit();			
+			$this->commit();
 			$this->autocommit(TRUE);
-			
+
 			return $record;
-		} catch (Exception $e) {			
+		} catch (Exception $e) {
 			throw new HttpException($e->getMessage(), 500);
 			$this->rollback();
 			$this->autocommit(TRUE);
 		}
 	}
-	
+
 	public function buildInsertSql($tableName, $attributes)
 	{
 		$fields = array_keys($attributes);
 		$values = array();
-		
+
 		foreach ($attributes as $value) {
 			$values[] = $this->real_escape_string($value);
 		}
-		
+
 		$sql = "INSERT INTO $tableName(".implode(",", $fields).") ";
 		$sql .= "VALUES ('".implode("','", $values)."')";
-		
+
 		return $sql;
 	}
-	
+
 	public function buildUpdateSql($tableName, $attributes, $pkName = null)
 	{
 		$fields = array();
-		
+
 		foreach ($attributes as $key => $value) {
 			if($key !== $pkName) {
-				$fields[] = $key."=".((!empty($value))?"'".$this->real_escape_string($value)."'":'NULL');
+				$fields[] = $key."=".(($value !== '')?"'".$this->real_escape_string($value)."'":'NULL');
 			}
 		}
-		
+
 		$sql = "UPDATE $tableName SET ".implode(', ', $fields)." WHERE $pkName={$attributes[$pkName]}";
-		
+
 		return $sql;
 	}
 

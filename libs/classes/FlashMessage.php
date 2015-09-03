@@ -5,24 +5,23 @@ namespace libs\classes;
 class FlashMessage
 {
 
-	public function __construct($message, $code = 0, Exception $previous = null) 
-	{
-		set_exception_handler(array("libs\classes\HttpException", "getStaticException"));
-		parent::__construct($message, $code, $previous);
+	public function checkFlashMessage($key) {
+		$mes = $this->getSesion('flash_'.$key);
+		return ($mes!='')?true:false;
 	}
-	
-	public function setFlashMessage($type, $message)
+
+	public function setFlashMessage($key, $message)
 	{
-		$_SESSION['flash_'.$type] = $message;
+		$_SESSION['flash_'.$key] = $message;
 	}
-	
-	public function getFlashMessage($type)
+
+	public function getFlashMessage($key)
 	{
-		if(isset($_SESSION['flash_'.$key])) {
-			return $_SESSION['flash_'.$key];
-		}
+		$message = $this->getSesion('flash_'.$key);
+		$this->removeSesion('flash_'.$key);
+		return $message;
 	}
-	
+
 	public function clearAllFlashMessage()
 	{
 		if(!empty($_SESSION)) {
@@ -31,6 +30,22 @@ class FlashMessage
 					unset($_SESSION[$key]);
 				}
 			}
+		}
+	}
+
+	public function getSesion($key)
+	{
+		if(isset($_SESSION[$key])) {
+			return $_SESSION[$key];
+		}
+
+		return '';
+	}
+
+	public function removeSesion($key)
+	{
+		if(isset($_SESSION[$key])) {
+			unset($_SESSION[$key]);
 		}
 	}
 }
