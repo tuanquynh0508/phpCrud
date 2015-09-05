@@ -7,6 +7,10 @@ use libs\classes\HttpException;
 class DBAccess extends \mysqli
 {
 
+	/**
+	 * {@inheritdoc}
+	 * @throws HttpException
+	 */
 	public function __construct()
 	{
 		@parent::__construct(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
@@ -16,11 +20,21 @@ class DBAccess extends \mysqli
 		}
 		$this->query("SET NAMES UTF-8");
 	}
-
+	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __destruct() {
 		$this->close();
 	}
-
+	
+	/**
+	 * 
+	 * @param type $tableName
+	 * @param type $id
+	 * @return boolean
+	 * @throws HttpException
+	 */
 	public function deleteById($tableName, $id)
 	{
 		$value = false;

@@ -7,8 +7,12 @@ use libs\classes\FlashMessage;
 $oFlashMessage = new FlashMessage();
 $oDBAccess = new DBAccess();
 $isAddNew = true;
-$category = null;
 $id = 0;
+
+$category = new stdClass();
+$category->title = '';
+$category->slug = '';
+$category->is_active = 1;
 
 $formError = array();
 $fieldsRequired = array('title','slug');
@@ -29,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	//Validate input data
 	foreach($attributes as $key => $value){
+		$category->$key = $value;
 		if(in_array($key, $fieldsRequired) && empty($value)) {
 			$formError[] = "Cần nhập giá trị $key";
 		}
@@ -51,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	}
 }
 ?>
-<?php include "libs/include/header.inc.php"; ?>
+<?php include "libs/include/admin/header.inc.php"; ?>
 
 <h2>Quản lý Danh mục - <?= ($isAddNew)?'Thêm mới':'Cập nhật' ?></h2>
 
-<?php include "libs/include/flash_message.inc.php"; ?>
+<?php include "libs/include/admin/flash_message.inc.php"; ?>
 
 <form action="" method="post">
 <?php if(!$isAddNew): ?>
@@ -124,4 +129,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </table>
 </form>
 
-<?php include "libs/include/footer.inc.php"; ?>
+<?php include "libs/include/admin/footer.inc.php"; ?>

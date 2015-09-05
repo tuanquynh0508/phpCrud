@@ -48,12 +48,12 @@ function addPageToQueryString($key, $value)
 	return implode('&', $params);
 }
 ?>
-<?php include "libs/include/header.inc.php"; ?>
+<?php include "libs/include/admin/header.inc.php"; ?>
 
 <h2>Quản lý Danh mục</h2>
 <p><a href="admin_category_form.php">Thêm mới</a></p>
 
-<?php include "libs/include/flash_message.inc.php"; ?>
+<?php include "libs/include/admin/flash_message.inc.php"; ?>
 
 <?php if(!empty($categories)): ?>
 <form id="frmSearch" action="" method="get">
@@ -115,4 +115,4 @@ $nextPage = ($page+1 <= $maxPage)?$page+1:$maxPage;
 </p>
 <?php endif; ?>
 
-<?php include "libs/include/footer.inc.php"; ?>
+<?php include "libs/include/admin/footer.inc.php"; ?>
